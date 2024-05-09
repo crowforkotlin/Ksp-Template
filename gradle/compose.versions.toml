@@ -1,0 +1,45 @@
+# https://github.com/google/accompanist
+# https://github.com/chrisbanes/compose-bom
+# https://androidx.tech/artifacts/compose.compiler/compiler/
+[versions]
+compiler = "1.5.12"
+compose-bom = "2024.04.00-alpha02"
+accompanist = "0.35.0-alpha"
+androidx-activity = "1.9.0"
+androidx-material-icons-extended = "1.6.6"
+androidx-material = "1.6.6"
+androidx-foundation = "1.6.6"
+androidx-material3 = "1.2.1"
+androidx-animation-graphics = "1.6.6"
+androidx-ui-util = "1.6.6"
+androidx-ui-tooling = "1.6.6"
+androidx-animation = "1.6.6"
+about-libraries = "10.9.2"
+
+[libraries]
+androidx-activity = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "androidx-material-icons-extended" }
+androidx-material = { module = "androidx.compose.material:material", version.ref = "androidx-material" }
+androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidx-material3" }
+androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-foundation" }
+androidx-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "androidx-animation-graphics" }
+androidx-ui-util = { module = "androidx.compose.ui:ui-util", version.ref = "androidx-ui-util" }
+androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-ui-tooling" }
+androidx-animation = { module = "androidx.compose.animation:animation", version.ref = "androidx-animation"}
+
+accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist"}
+accompanist-pager-indicator = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist"}
+accompanist-webview = { module = "com.google.accompanist:accompanist-webview", version.ref = "accompanist" }
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
+accompanist-themeadapter = { module = "com.google.accompanist:accompanist-themeadapter-material3", version.ref = "accompanist" }
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
+
+about-libraries = { module = "com.mikepenz:aboutlibraries-compose", version.ref = "about-libraries" }
+about-libraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "about-libraries" }
+
+bom = { group = "dev.chrisbanes.compose", name = "compose-bom", version.ref = "compose-bom" }
+coil = { module = "io.coil-kt:coil-compose", version = "2.4.0"}
+glide = { module = "com.github.bumptech.glide:compose", version = "1.0.0-alpha.6"}
+
+[plugins]
+about-libraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "about-libraries" }
