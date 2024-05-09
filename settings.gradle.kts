@@ -30,3 +30,4 @@ dependencyResolutionManagement {
 rootProject.name = "Ksp-Template"
 include(":app")
 include(":annotation")
+include(":generator")
