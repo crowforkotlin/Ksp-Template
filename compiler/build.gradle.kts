@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins { kotlin("jvm") }
 
 dependencies {
+    implementation(project(":annotation"))
     implementation(libs.kotlinpoet)
     implementation(libs.kotlinpoet.ksp)
     implementation(libs.ksp.api) { exclude(module = "kotlin-reflect") }

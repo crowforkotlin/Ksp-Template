@@ -38,6 +38,9 @@ android {
 
 dependencies {
 
+    implementation(project(":annotation"))
+    ksp(project(":compiler"))
+
     implementation(app.androidx.core)
     implementation(app.androidx.activity)
     implementation(app.androidx.appcompat)
