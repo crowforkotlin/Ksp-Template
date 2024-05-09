@@ -1,6 +1,7 @@
 [versions]
 junit = "4.13.2"
 kotlin = "1.9.23"
+ksp = "1.9.23-1.0.20"
 network-okhttp = "5.0.0-alpha.14"
 network-retrofit = "2.11.0"
 json-moshi = "1.15.1"
@@ -46,6 +47,9 @@ glide = "5.0.0-rc01"
 coil = "2.5.0"
 subsampling-scale-image-view = "1b19231b2f"
 
+# [ https://github.com/square/kotlinpoet ]
+kotlinpoet = "1.16.0"
+
 
 [libraries]
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -71,7 +75,11 @@ moshi = { group = "com.squareup.moshi", name = "moshi", version.ref = "json-mosh
 moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "json-moshi" }
 moshi-kotlin-codegen = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", version.ref = "json-moshi" }
 
-logger = {group = "com.orhanobut", name = "logger", version.ref = "logger" }
+kotlinpoet = { group = "com.squareup", name = "kotlinpoet", version.ref = "kotlinpoet" }
+kotlinpoet-ksp = { group = "com.squareup", name = "kotlinpoet-ksp", version.ref = "kotlinpoet" }
+ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
+
+logger = { group = "com.orhanobut", name = "logger", version.ref = "logger" }
 
 loading-button = { group = "com.github.leandroborgesferreira", name = "loading-button-android", version.ref = "loading-button" }
 
