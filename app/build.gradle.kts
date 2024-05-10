@@ -5,26 +5,25 @@ plugins {
 }
 
 android {
-    namespace = "com.crow.ksp.template"
-    compileSdk = 34
-
+    namespace = App.namespaceApp
+    compileSdk = App.compileSdkVersion
     defaultConfig {
-        applicationId = "com.crow.ksp.template"
-        minSdk = 23
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        applicationId = App.applicationId
+        minSdk = App.minSdkVersion
+        targetSdk = App.targetSdkVersion
+        versionCode = App.versionCode
+        versionName = App.versionName
+        testInstrumentationRunner = App.testInstrumentationRunner
     }
-
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile(App.proguardAndroidOptimizeTxt), App.proguardRulesPro)
+        }
+    }
+    kotlin {
+        sourceSets.debug {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
         }
     }
     compileOptions {
@@ -32,14 +31,18 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = App.jvmTarget
     }
 }
 
+ksp {
+    arg("router.moduleName", "app")
+    arg("router.packageName", "com.crow.ksp.template")
+}
 dependencies {
-
-    implementation(project(":annotation"))
-    ksp(project(":compiler"))
+    implementation(project(":library_api"))
+    api(project(":module_annotation"))
+    ksp(project(":module_compiler"))
 
     implementation(app.androidx.core)
     implementation(app.androidx.activity)

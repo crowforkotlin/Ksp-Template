@@ -4,5 +4,5 @@ plugins {
     alias(app.plugins.android.library) apply false
     alias(app.plugins.android.kotlin) apply false
     alias(compose.plugins.about.libraries) apply false
+    id("com.google.devtools.ksp") version app.versions.ksp apply false
 }
-true // Needed to make the Suppress annotation work for the plugins block

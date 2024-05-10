@@ -29,5 +29,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Ksp-Template"
 include(":app")
-include(":annotation")
-include(":compiler")
+include(":library_api")
+include(":module_annotation")
+include(":module_compiler")
