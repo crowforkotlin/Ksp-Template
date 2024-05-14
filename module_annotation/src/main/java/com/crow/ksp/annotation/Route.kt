@@ -3,4 +3,4 @@ package com.crow.ksp.annotation
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.SOURCE)
 @Repeatable
-annotation class Route(val value:String, val routes: Array<String> = [], val interceptors:Array<String> = [], val flags: Int = 0)
+annotation class Route(val path:String)

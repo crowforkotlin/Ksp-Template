@@ -8,6 +8,7 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
+import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSVisitorVoid
@@ -25,69 +26,60 @@ import java.nio.charset.StandardCharsets
  * @author crowforkotlin
  * @formatter:on
  */
-class PathGenerator(
-    private val codeGenerator: CodeGenerator,
-    private val logger: KSPLogger,
-    options: Map<String, String>,
-) {
-    private val mModuleName: String = options["router.moduleName"] ?: options["moduleName"] ?: ""
-    private val formattedModuleName: String = mModuleName.replace("[^0-9a-zA-Z_]+".toRegex(), "")
-    private val generatedPackageName: String = (options["router.packageName"] ?: options["packageName"] ?: PKG) + ".generated"
+class PathGenerator(private val mEnvironment: SymbolProcessorEnvironment) : KSPLogger by mEnvironment.logger {
+    private val mOption get() = mEnvironment.options
+    private val mModuleName: String = mOption["router.moduleName"] ?: mOption["moduleName"] ?: ""
+    private val mFormattedModuleName: String = mModuleName.replace("[^0-9a-zA-Z_]+".toRegex(), "")
+    private val mGeneratedPackageName: String = (mOption["router.packageName"] ?: mOption["packageName"] ?: PKG) + ".generated"
 
 
-    private val routes = mutableSetOf<String>()
     @OptIn(KspExperimental::class)
     fun generate(resolver: Resolver, symbols: Sequence<KSAnnotated>) {
-        val clazzActivity = resolver.getClassDeclarationByName("android.app.Activity")!!.asType(listOf())
+        val pathList = mutableSetOf<String>()
         val clazzRouteCallable = resolver.getClassDeclarationByName("$PKG.RouteCallable")!!.asType(listOf())
         val clazzRouteTable = resolver.getClassDeclarationByName("$PKG.internal.RouteTable")!!.asType(listOf())
-
-        routes.clear()
         val funcSpec = FunSpec.builder("load").addParameter("rt", clazzRouteTable.toTypeName())
-
         symbols.forEach {
             val annotation = it.getAnnotationsByType(Route::class).first()
-
-            val paths = (arrayOf(annotation.value) + annotation.routes).filter { path ->
+            val paths = arrayOf(annotation.path).filter { path ->
                 if (path.isEmpty()) {
-                    logger.warn("The route path is empty, so skip $it")
+                    warn("The path is empty, so skip $it")
                     return@filter false
                 }
                 return@filter true
             }.toTypedArray()
 
             if (paths.isEmpty()) {
-                logger.warn("The route paths is empty, so skip $it")
+                warn("The paths is empty, so skip $it")
                 return@forEach
             }
 
+            // 接收者模式
             it.accept(object : KSVisitorVoid() {
                 override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
                     val type = classDeclaration.asType(listOf())
-                    if (clazzActivity.isAssignableFrom(type) || clazzRouteCallable.isAssignableFrom(type)) {
-                        logger.warn("Found $type")
-
-                        routes.addAll(paths)
+                    if (clazzRouteCallable.isAssignableFrom(type)) {
+                        warn("Found $type")
+                        pathList.addAll(paths)
                         funcSpec.addStatement("rt.add(%T::class.java, %L)", type.toTypeName(), paths.format())
-
                     } else {
-                        logger.warn("Unknown route type, so skip $type")
+                        warn("Unknown route type, so skip $type")
                     }
                 }
             }, Unit)
         }
 
-        val typeSpec = TypeSpec.classBuilder("RouteLoader_$formattedModuleName")
+        val typeSpec = TypeSpec.classBuilder("RouteLoader_$mFormattedModuleName")
             .addKdoc(WARNINGS)
             .addFunction(funcSpec.build())
             .build()
 
-        val fileSpec = FileSpec.builder(generatedPackageName, "RouteLoader_$formattedModuleName")
+        val fileSpec = FileSpec.builder(mGeneratedPackageName, "RouteLoader_$mFormattedModuleName")
             .addType(typeSpec)
             .build()
 
 
-        fileSpec.writeFile(codeGenerator)
+        fileSpec.writeFile(mEnvironment.codeGenerator)
     }
 
     private fun FileSpec.writeFile(codeGenerator: CodeGenerator) {
