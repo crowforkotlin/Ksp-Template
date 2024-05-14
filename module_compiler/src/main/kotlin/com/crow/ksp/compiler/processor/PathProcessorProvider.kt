@@ -9,12 +9,12 @@ import com.google.devtools.ksp.processing.SymbolProcessorProvider
 @AutoService(SymbolProcessorProvider::class)
 class PathProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-        println("create")
-        environment.logger.run {
-            info("Kotlin version: ${environment.kotlinVersion}")
-            info("Api Version: ${environment.apiVersion}")
-            info("Compile Version: ${environment.compilerVersion}")
-            info("Options: ${environment.options}")
+        println("[PathProcessorProvider] create!")
+        environment.apply {
+            logger.info("Kotlin version: $kotlinVersion")
+            logger.info("Api Version: $apiVersion")
+            logger.info("Compile Version: $compilerVersion")
+            logger.info("Options: $options")
         }
         return PathProcessor(environment)
     }

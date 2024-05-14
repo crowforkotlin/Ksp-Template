@@ -1,6 +1,5 @@
 package com.crow.ksp.compiler.generator
 
-import com.crow.ksp.annotation.Path
 import com.crow.ksp.annotation.Route
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAnnotationsByType
@@ -31,8 +30,8 @@ class PathGenerator(
     private val logger: KSPLogger,
     options: Map<String, String>,
 ) {
-    private val moduleName: String = options["router.moduleName"] ?: options["moduleName"] ?: ""
-    private val formattedModuleName: String = moduleName.replace("[^0-9a-zA-Z_]+".toRegex(), "")
+    private val mModuleName: String = options["router.moduleName"] ?: options["moduleName"] ?: ""
+    private val formattedModuleName: String = mModuleName.replace("[^0-9a-zA-Z_]+".toRegex(), "")
     private val generatedPackageName: String = (options["router.packageName"] ?: options["packageName"] ?: PKG) + ".generated"
 
 

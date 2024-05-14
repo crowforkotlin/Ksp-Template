@@ -38,12 +38,13 @@ class PathProcessor(private val environment: SymbolProcessorEnvironment) : Symbo
         // 从符号过滤出实例为"类声明"然后遍历
         symbols.filterIsInstance<KSClassDeclaration>()
             .forEach { ksClass ->
+                println("[Processor] -> ksClass simpleName is ${ksClass.simpleName} \t ${ksClass.packageName}")
                 PathGenerator(
                     environment.codeGenerator,
                     environment.logger,
                     environment.options
                 ).generate(resolver, symbols)
-                println("[Processor] -> ksClass simpleName is ${ksClass.simpleName} \t ${ksClass.packageName}") }
+            }
 
         symbols.filterIsInstance<KSFunctionDeclaration>()
             .forEach { ksFunction -> println("[Processor] -> ksFunction simpleName is ${ksFunction.simpleName} \t ${ksFunction.packageName}") }
